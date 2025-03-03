@@ -11,6 +11,10 @@ var GenreSchema: Schema<IGenre> = new Schema(
   }
 );
 
+// Virtual Property for Genre URL
+GenreSchema.virtual('url').get(function (this: IGenre) {
+  return `/genres?id=${this._id}`;
+});
 
 // Export the model
 const Genre: Model<IGenre> = mongoose.model<IGenre>('Genre', GenreSchema);

@@ -9,6 +9,7 @@ export interface IBook extends Document {
   summary: string;
   isbn: string;
   genre: IGenre[];
+  url: string;
 }
 
 var BookSchema: Schema<IBook> = new Schema(
@@ -20,6 +21,11 @@ var BookSchema: Schema<IBook> = new Schema(
     genre: [{type: Schema.Types.ObjectId, ref: 'Genre'}]
   }
 );
+
+// Virtual Property for Book URL
+BookSchema.virtual('url').get(function (this: IBook) {
+  return `/book_dtls?id=${this._id}`;
+});
 
 // Export the model
 const Book: Model<IBook> = mongoose.model<IBook>('Book', BookSchema);
